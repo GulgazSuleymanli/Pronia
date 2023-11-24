@@ -1,5 +1,4 @@
 ﻿
-
 namespace Pronia_FronttoBack.Areas.Manage_Pronia.Controllers
 {
     [Area("Manage_Pronia")]
@@ -31,54 +30,42 @@ namespace Pronia_FronttoBack.Areas.Manage_Pronia.Controllers
         {
             return View();
         }
+
         [HttpPost]
-        public IActionResult Create(Slider slider)
+        public async Task<IActionResult> Create(Slider slider)
         {
-            if (slider == null)
+            //if (!ModelState.IsValid)
+            //{
+            //    return View();
+            //}
+
+            if (slider.ImageFile == null)
             {
-                return BadRequest();
-            }
-            
-            if(slider.ImageFile.ContentType != "image/")
-            {
-                ModelState.AddModelError("ImageFile", "Wrong file type");
+                ModelState.AddModelError("ImageFile", "File can not be null");
                 return View();
             }
 
-            if(slider.ImageFile.Length > 200*1024)
+
+            if (!slider.ImageFile.CheckType("image/"))
             {
-                ModelState.AddModelError("ImageFile", "Bigger file");
+                ModelState.AddModelError("ImageFile", "File must be image type");
                 return View();
             }
 
-            string filename = slider.ImageFile.FileName;
-
-            if (filename.Length > 64)
+            if (slider.ImageFile.CheckLength(300))
             {
-
-                filename = filename.Substring(filename.Length - 64, 64);
-            }
-
-            filename = Guid.NewGuid().ToString() + filename;
-
-            string path = _env.WebRootPath + @"\Upload\SliderImage\" + filename;
-
-
-            using (FileStream stream = new FileStream(path, FileMode.Create))
-            {
-                slider.ImageFile.CopyTo(stream);
-            }
-
-            slider.ImageUrl = filename;
-
-            if (!ModelState.IsValid)
-            {
+                ModelState.AddModelError("ImageFile", "File can not be than" + 300 + "kb");
                 return View();
             }
 
-            _context.Sliders.Add(slider);
-            _context.SaveChanges();
-            return RedirectToAction("Index");
+
+
+            slider.ImageUrl = slider.ImageFile.CreateFile(_env.WebRootPath, "Uploads/SliderImages");
+
+            await _context.Sliders.AddAsync(slider);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
 
         public IActionResult Update()
@@ -86,40 +73,46 @@ namespace Pronia_FronttoBack.Areas.Manage_Pronia.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Update(Slider slider)
+        public async Task<IActionResult> Update(Slider slider)
         {
+            Slider oldSlider = await _context.Sliders.FirstOrDefaultAsync(s =>s.Id == slider.Id);
+
             if (slider == null)
             {
                 return BadRequest();
             }
 
+            if (slider.ImageFile != null)
+            {
+                oldSlider.ImageUrl.DeleteFile(_env.WebRootPath, @"Uploads\SliderImages");
+                oldSlider.ImageUrl = slider.ImageFile.CreateFile(_env.WebRootPath, @"Uploads\SliderImages");
+            }
             
-
-
-
-
-
-
-
-
-            _context.Sliders.Find(slider.Id).Title = slider.Title;
-            _context.SaveChanges();
+            oldSlider.Title = slider.Title;
+            oldSlider.Offer = slider.Offer;
+            oldSlider.Description = slider.Description;
+            
+            await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
-        public IActionResult Delete(int id)
+
+        public async Task<IActionResult> Delete(int id)
         {
-            Slider slider = _context.Sliders.Find(id);
-            if (slider != null)
-            {
-                _context.Sliders.Remove(slider);
-                _context.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            else
+            Slider slider = await _context.Sliders.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (slider == null)
             {
                 return NotFound();
             }
+
+            slider.ImageUrl.DeleteFile(_env.WebRootPath, @"Uploads\SliderImages");
+
+            _context.Sliders.Remove(slider);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+
         }
     }
 }

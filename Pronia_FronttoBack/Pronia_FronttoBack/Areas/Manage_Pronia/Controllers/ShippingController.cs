@@ -7,10 +7,12 @@ namespace Pronia_FronttoBack.Areas.Manage_Pronia.Controllers
     public class ShippingController : Controller
     {
         AppDbContext _context;
+        private readonly IWebHostEnvironment _env;
 
-        public ShippingController(AppDbContext context)
+        public ShippingController(AppDbContext context, IWebHostEnvironment env)
         {
             _context = context;
+            _env = env;
         }
 
         public async Task<IActionResult> Index()
@@ -26,57 +28,84 @@ namespace Pronia_FronttoBack.Areas.Manage_Pronia.Controllers
             }
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             return View();
         }
         [HttpPost]
-        public IActionResult Create(Shipping shipping)
+        public async Task<IActionResult> Create(Shipping shipping)
         {
-            if (shipping != null)
+            if (shipping.IconFile == null)
             {
-                _context.Shippers.Add(shipping);
-                _context.SaveChanges();
-                return RedirectToAction("Index");
+                ModelState.AddModelError("IconFile", "File can not be null");
+                return View();
             }
-            else
+
+
+            if (!shipping.IconFile.CheckType("image/"))
             {
-                return NotFound();
+                ModelState.AddModelError("IconFile", "File must be image type");
+                return View();
             }
+
+            if (shipping.IconFile.CheckLength(300))
+            {
+                ModelState.AddModelError("IconFile", "File can not be than" + 300 + "kb");
+                return View();
+            }
+
+
+
+            shipping.IconUrl = shipping.IconFile.CreateFile(_env.WebRootPath, "Uploads/ShippingIcons");
+
+            await _context.Shippers.AddAsync(shipping);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult Update()
+        public async Task<IActionResult> Update()
         {
             return View();
         }
         [HttpPost]
-        public IActionResult Update(Shipping shipping)
+        public async Task<IActionResult> Update(Shipping shipping)
         {
-            if (shipping != null)
+            Shipping oldShipper = await _context.Shippers.FirstOrDefaultAsync(s => s.Id == shipping.Id);
+
+            if (shipping == null)
             {
-                _context.Shippers.Find(shipping.Id).Title = shipping.Title;
-                _context.SaveChanges();
-                return RedirectToAction("Index");
+                return BadRequest();
             }
-            else
+
+            if (shipping.IconFile != null)
             {
-                return NotFound();
+                oldShipper.IconUrl.DeleteFile(_env.WebRootPath, @"Uploads\ShippingIcons");
+                oldShipper.IconUrl = shipping.IconFile.CreateFile(_env.WebRootPath, @"Uploads\ShippingIcons");
             }
+
+            oldShipper.Title = shipping.Title;
+            oldShipper.Description = shipping.Description;
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
         }
 
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            Shipping shipping = _context.Shippers.Find(id);
-            if (shipping != null)
-            {
-                _context.Shippers.Remove(shipping);
-                _context.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            else
+            Shipping Shipper = await _context.Shippers.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (Shipper == null)
             {
                 return NotFound();
             }
+
+            Shipper.IconUrl.DeleteFile(_env.WebRootPath, @"Uploads\ShippingIcons");
+
+            _context.Shippers.Remove(Shipper);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

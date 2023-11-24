@@ -1,4 +1,6 @@
 ﻿
+using Pronia_FronttoBack.Models;
+
 namespace Pronia_FronttoBack.Areas.Manage_Pronia.Controllers
 {
     [Area("Manage_Pronia")]
@@ -24,51 +26,60 @@ namespace Pronia_FronttoBack.Areas.Manage_Pronia.Controllers
             }
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             return View();
         }
         [HttpPost]
-        public IActionResult Create(Category category)
+        public async Task<IActionResult> Create(Category category)
         {
-            if(category!=null)
+            if(!ModelState.IsValid)
             {
-                _context.Categories.Add(category);
-                _context.SaveChanges();
-                return RedirectToAction("Index");
+                return View();
             }
-            else
+
+            if (category.Name == null)
             {
-                return NotFound();
+                ModelState.AddModelError("Name", "Name can not be null");
+                return View();
             }
+
+            _context.Categories.Add(category);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
         }
 
-        public IActionResult Update()
+        public async Task<IActionResult> Update()
         {
             return View();
         }
         [HttpPost]
-        public IActionResult Update(Category category)
+        public async Task<IActionResult> Update(Category category)
         {
-            if(category!=null)
+            if (!ModelState.IsValid)
             {
-                _context.Categories.Find(category.Id).Name = category.Name;
-                _context.SaveChanges();
-                return RedirectToAction("Index");
+                return View();
             }
-            else
+
+            if (category.Name == null)
             {
-                return NotFound();
+                ModelState.AddModelError("Name", "Name can not be null");
+                return View();
             }
+
+            Category findCategory = await _context.Categories.FirstOrDefaultAsync(c => c.Id == category.Id);
+            findCategory.Name = category.Name;
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
         }
 
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            Category category = _context.Categories.Find(id);
+            Category category = await _context.Categories.FirstOrDefaultAsync(c=>c.Id == id);
             if(category!=null)
             {
                 _context.Categories.Remove(category);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
             else

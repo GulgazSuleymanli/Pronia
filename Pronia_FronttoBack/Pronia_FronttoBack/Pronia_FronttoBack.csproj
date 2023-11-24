@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\Uploads\ShippingIcons\" />
     <Folder Include="wwwroot\Uploads\SliderImages\" />
   </ItemGroup>
 

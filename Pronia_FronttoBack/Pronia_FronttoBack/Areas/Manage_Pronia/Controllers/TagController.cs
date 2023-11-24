@@ -16,21 +16,9 @@ namespace Pronia_FronttoBack.Areas.Manage_Pronia.Controllers
         public async Task<IActionResult> Index()
         {
             List<Tag> tags = await _context.Tags.ToListAsync();
-            return View(tags);
-        }
-
-        public IActionResult Create()
-        {
-            return View();
-        }
-        [HttpPost]
-        public IActionResult Create(Tag tag)
-        {
-            if (tag != null)
+            if (tags != null)
             {
-                _context.Tags.Add(tag);
-                _context.SaveChanges();
-                return RedirectToAction("Index");
+                return View(tags);
             }
             else
             {
@@ -38,32 +26,49 @@ namespace Pronia_FronttoBack.Areas.Manage_Pronia.Controllers
             }
         }
 
-        public IActionResult Update()
+        public async Task<IActionResult> Create()
         {
             return View();
         }
         [HttpPost]
-        public IActionResult Update(Tag tag)
+        public async Task<IActionResult> Create(Tag tag)
         {
-            if (tag != null)
+            if (tag.Name == null)
             {
-                _context.Tags.Find(tag.Id).Name = tag.Name;
-                _context.SaveChanges();
-                return RedirectToAction("Index");
+                ModelState.AddModelError("Name", "Name can not be null");
+                return View();
             }
-            else
-            {
-                return NotFound();
-            }
+
+            await _context.Tags.AddAsync(tag);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
         }
 
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Update()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Update(Tag tag)
+        {
+            if (tag.Name == null)
+            {
+                ModelState.AddModelError("Name", "Name can not be null");
+                return View();
+            }
+
+            _context.Tags.Find(tag.Id).Name = tag.Name;
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> Delete(int id)
         {
             Tag tag = _context.Tags.Find(id);
             if (tag != null)
             {
                 _context.Tags.Remove(tag);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
             else

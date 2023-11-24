@@ -1,6 +1,38 @@
 {
   "Files": [
     {
+      "Id": "C:\\Users\\Gulgaz\\Desktop\\Code Academy\\Front To Back\\Pronia\\Pronia_FronttoBack\\Pronia_FronttoBack\\wwwroot\\Uploads\\SliderImages\\19de8dfb-4225-4c43-ae7e-70254cc93644645b1dc4-c5e5-4fa6-b26f-3be949a7dbc5.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\SliderImages\\19de8dfb-4225-4c43-ae7e-70254cc93644645b1dc4-c5e5-4fa6-b26f-3be949a7dbc5.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Gulgaz\\Desktop\\Code Academy\\Front To Back\\Pronia\\Pronia_FronttoBack\\Pronia_FronttoBack\\wwwroot\\Uploads\\SliderImages\\2eaa0f68-cee2-4710-acac-e064316ba892moonandvolcano.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\SliderImages\\2eaa0f68-cee2-4710-acac-e064316ba892moonandvolcano.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Gulgaz\\Desktop\\Code Academy\\Front To Back\\Pronia\\Pronia_FronttoBack\\Pronia_FronttoBack\\wwwroot\\Uploads\\SliderImages\\45a1d545-7708-40dd-b64e-d1cb568554b34-3.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\SliderImages\\45a1d545-7708-40dd-b64e-d1cb568554b34-3.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Gulgaz\\Desktop\\Code Academy\\Front To Back\\Pronia\\Pronia_FronttoBack\\Pronia_FronttoBack\\wwwroot\\Uploads\\SliderImages\\55186394-34f7-4f7a-8bc3-3795bf748de72-1.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\SliderImages\\55186394-34f7-4f7a-8bc3-3795bf748de72-1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Gulgaz\\Desktop\\Code Academy\\Front To Back\\Pronia\\Pronia_FronttoBack\\Pronia_FronttoBack\\wwwroot\\Uploads\\SliderImages\\6cd4699a-c3a3-45e6-a146-89aa1df37c051-1-270x270.png",
+      "PackagePath": "staticwebassets\\Uploads\\SliderImages\\6cd4699a-c3a3-45e6-a146-89aa1df37c051-1-270x270.png"
+    },
+    {
+      "Id": "C:\\Users\\Gulgaz\\Desktop\\Code Academy\\Front To Back\\Pronia\\Pronia_FronttoBack\\Pronia_FronttoBack\\wwwroot\\Uploads\\SliderImages\\b46477ba-077a-46d6-85b7-16ea0127aca11-4.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\SliderImages\\b46477ba-077a-46d6-85b7-16ea0127aca11-4.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Gulgaz\\Desktop\\Code Academy\\Front To Back\\Pronia\\Pronia_FronttoBack\\Pronia_FronttoBack\\wwwroot\\Uploads\\SliderImages\\d49abb66-a692-48a6-82d9-e0cd972b92b81-3.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\SliderImages\\d49abb66-a692-48a6-82d9-e0cd972b92b81-3.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Gulgaz\\Desktop\\Code Academy\\Front To Back\\Pronia\\Pronia_FronttoBack\\Pronia_FronttoBack\\wwwroot\\Uploads\\SliderImages\\e26c62a2-2c3a-43db-839c-06289fa627ba3-2.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\SliderImages\\e26c62a2-2c3a-43db-839c-06289fa627ba3-2.jpg"
+    },
+    {
       "Id": "C:\\Users\\Gulgaz\\Desktop\\Code Academy\\Front To Back\\Pronia\\Pronia_FronttoBack\\Pronia_FronttoBack\\wwwroot\\assets\\css\\Pe-icon-7-stroke.css",
       "PackagePath": "staticwebassets\\assets\\css\\Pe-icon-7-stroke.css"
     },

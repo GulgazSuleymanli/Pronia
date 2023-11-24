@@ -3,20 +3,19 @@
     int count = 0;
 }
 
-
-<div class="container pt-3">
-    <div class="d-flex justify-content-around">
-        <h3>Sliders</h3>
+<div class="container">
+    <div class="d-flex" style="justify-content:space-around;align-items:center">
+        <h1>Sliders</h1>
         <a class="btn btn-success" asp-controller="Slider" asp-action="Create">Create</a>
     </div>
-    <table class="table table-secondary table-striped text-dark">
+    <table class="table">
         <thead>
             <tr>
-                <th scope="col">No</th>
+                <th scope="col">#</th>
                 <th scope="col">Id</th>
                 <th scope="col">Title</th>
-                <th scope="col">Decsription</th>
                 <th scope="col">Offer</th>
+                <th scope="col">Description</th>
                 <th scope="col">Image</th>
             </tr>
         </thead>
@@ -28,12 +27,16 @@
                     <th scope="row">@count</th>
                     <td>@item.Id</td>
                     <td>@item.Title</td>
-                    <td>@item.Description</td>
                     <td>@item.Offer</td>
-                    <td>@item.ImageUrl</td>
+                    <td>@item.Description</td>
                     <td>
-                        <a class="btn btn-primary" asp-controller="Slider" asp-action="Update" asp-route-id="@item.Id">Update</a>
-                        <a class="btn btn-danger" asp-controller="Slider" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        <div style="width:100px">
+                            <img width=100% src="~/Uploads/SliderImages//@item.ImageUrl">
+                        </div>
+                    </td>
+                    <td>
+                        <a class="btn btn-primary" asp-controller="Slider" asp-action="Update" asp-route-id=@item.Id>Update</a>
+                        <a class="btn btn-danger" asp-controller="Slider" asp-action="Delete" asp-route-id=@item.Id>Delete</a>
                     </td>
                 </tr>
             }
