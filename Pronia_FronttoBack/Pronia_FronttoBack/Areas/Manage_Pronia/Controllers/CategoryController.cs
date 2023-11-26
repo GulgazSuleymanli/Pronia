@@ -46,7 +46,7 @@ namespace Pronia_FronttoBack.Areas.Manage_Pronia.Controllers
 
             _context.Categories.Add(category);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> Update()
@@ -70,7 +70,7 @@ namespace Pronia_FronttoBack.Areas.Manage_Pronia.Controllers
             Category findCategory = await _context.Categories.FirstOrDefaultAsync(c => c.Id == category.Id);
             findCategory.Name = category.Name;
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> Delete(int id)
@@ -80,7 +80,7 @@ namespace Pronia_FronttoBack.Areas.Manage_Pronia.Controllers
             {
                 _context.Categories.Remove(category);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction(nameof(Index));
             }
             else
             {

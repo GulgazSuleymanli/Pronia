@@ -41,7 +41,7 @@ namespace Pronia_FronttoBack.Areas.Manage_Pronia.Controllers
 
             await _context.Tags.AddAsync(tag);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> Update()
@@ -59,7 +59,7 @@ namespace Pronia_FronttoBack.Areas.Manage_Pronia.Controllers
 
             _context.Tags.Find(tag.Id).Name = tag.Name;
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> Delete(int id)
@@ -69,7 +69,7 @@ namespace Pronia_FronttoBack.Areas.Manage_Pronia.Controllers
             {
                 _context.Tags.Remove(tag);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction(nameof(Index));
             }
             else
             {

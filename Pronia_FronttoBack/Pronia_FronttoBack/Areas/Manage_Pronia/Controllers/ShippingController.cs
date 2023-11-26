@@ -88,7 +88,7 @@ namespace Pronia_FronttoBack.Areas.Manage_Pronia.Controllers
             oldShipper.Description = shipping.Description;
 
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> Delete(int id)

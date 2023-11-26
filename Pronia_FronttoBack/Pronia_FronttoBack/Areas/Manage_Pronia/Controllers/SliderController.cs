@@ -93,7 +93,7 @@ namespace Pronia_FronttoBack.Areas.Manage_Pronia.Controllers
             oldSlider.Description = slider.Description;
             
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
 
 
