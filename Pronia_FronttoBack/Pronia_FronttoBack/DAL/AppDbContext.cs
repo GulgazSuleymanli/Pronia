@@ -14,6 +14,8 @@ namespace Pronia_FronttoBack.DAL
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductColor> ProductColors { get; set; }
+        public DbSet<ProductTag> ProductTag { get; set; }
+        public DbSet<ProductSize> ProductSize { get; set; }
         public DbSet<Slider> Sliders { get; set; }
         public DbSet<Shipping> Shippers { get; set; }
         
