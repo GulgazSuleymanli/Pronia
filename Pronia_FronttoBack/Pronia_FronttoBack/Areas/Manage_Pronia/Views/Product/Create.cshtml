@@ -29,6 +29,27 @@
             </select>
             <span asp-validation-for="CategoryId" style="color:red"></span>
         </div>
+        <div class="mb-3">
+            <label asp-for="ColorIds" class="form-label"></label>
+            <select asp-for="ColorIds" asp-items="new SelectList(Model.Colors,nameof(Color.Id),nameof(Color.Name))" class="form-control" placeholder="Colors">
+                <option selected value="0" disabled>Choose Colors</option>
+            </select>
+            <span asp-validation-for="CategoryId" style="color:red"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="SizeIds" class="form-label"></label>
+            <select asp-for="SizeIds" asp-items="new SelectList(Model.Sizes,nameof(Size.Id),nameof(Size.Name))" class="form-control" placeholder="Sizes">
+                <option selected value="0" disabled>Choose Sizes</option>
+            </select>
+            <span asp-validation-for="SizeIds" style="color:red"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="TagIds" class="form-label"></label>
+            <select asp-for="TagIds" asp-items="new SelectList(Model.Tags,nameof(Tag.Id),nameof(Tag.Name))" class="form-control" placeholder="Tags">
+                <option selected value="0" disabled>Choose Tags</option>
+            </select>
+            <span asp-validation-for="TagIds" style="color:red"></span>
+        </div>
 
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
