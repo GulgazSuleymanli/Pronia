@@ -9,7 +9,7 @@
 
         public static bool CheckLength(this IFormFile file, int length)
         {
-            return file.Length > length * 1024;
+            return file.Length < length * 1024;
         }
 
         public static string CreateFile(this IFormFile file, string root, string folder)

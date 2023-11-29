@@ -15,5 +15,12 @@
         public List<Size>? Sizes { get; set; }
         public List<int>? TagIds { get; set; }
         public List<Tag>? Tags { get; set; }
+
+        [Required]
+        public IFormFile MainPhoto { get; set; }
+
+        [Required]
+        public IFormFile HoverPhoto { get; set; }
+        public List<IFormFile>? Photos { get; set; }
     }
 }

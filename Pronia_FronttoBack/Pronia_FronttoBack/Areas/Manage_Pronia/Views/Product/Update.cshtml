@@ -1,7 +1,7 @@
 ﻿@model UpdateProductVM
 
 <div class="container pt-3">
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         <div class="mb-3">
             <label asp-for="Title" class="form-label"></label>
             <input asp-for="Title" pleaseholder="Product Title" class="form-control">
@@ -42,7 +42,50 @@
             <select asp-for="TagIds" asp-items="new SelectList(Model.Tags,nameof(Tag.Id),nameof(Tag.Name))" class="form-control" placeholder="Tags"> </select>
             <span asp-validation-for="TagIds" style="color:red"></span>
         </div>
+        <div class="row align-items-center">
+            <div class="col-4 mb-3">
+                <img src="~/Uploads/ProductImages/@Model.ImagesVM.FirstOrDefault(i=>i.IsPrimary == true).ImageUrl">
+                <label asp-for="MainPhoto" class="form-label"></label>
+                <input asp-for="MainPhoto" class="form-control" placeholder="MainPhoto" />
+                <span asp-validation-for="MainPhoto" style="color:red"></span>
+            </div>
+            <div class="col-4 mb-3">
+                <img src="~/Uploads/ProductImages/@Model.ImagesVM.FirstOrDefault(i=>i.IsPrimary == false).ImageUrl">
+                <label asp-for="HoverPhoto" class="form-label"></label>
+                <input asp-for="HoverPhoto" class="form-control" placeholder="HoverPhoto" />
+                <span asp-validation-for="HoverPhoto" style="color:red"></span>
+            </div>
+        </div>
+        <div class="row">
+                @foreach (var item in Model.ImagesVM.Where(i => i.IsPrimary == null))
+                {
+                    <div class="col-2 position-relative">
+                        <img style="width:100%;height:150px;" src="~/Uploads/ProductImages/@item.ImageUrl" />
+                        <input type="hidden" value="@item.Id" name="ImageIds" />
+                        <button type="button" class="btn btn-danger position-absolute custom-delete" style="right:10px">X</button>
+                    </div>
+                }
+                <label asp-for="Photos" class="form-label"></label>
+                <input asp-for="Photos" class="form-control"/>
+                <span asp-validation-for="Photos" style="color:red"></span>
+        </div>
 
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
+
+
+
+
+@section DeleteFile{
+    <script>
+        var btn = document.querySelectorAll(".custom-delete")
+        btn.forEach(b => {
+            b.addEventListener("click",function()
+            {
+                b.parentElement.remove()
+            })
+        })
+    </script>
+}
+
