@@ -1,8 +1,7 @@
 ﻿namespace Pronia_FronttoBack.Models
 {
-    public class Color
+    public class Color:BaseEntity
     {
-        public int Id { get; set; }
         public string Name { get; set; }    
 
     }

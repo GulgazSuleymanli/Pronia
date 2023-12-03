@@ -2,9 +2,8 @@
 
 namespace Pronia_FronttoBack.Models
 {
-    public class Slider
+    public class Slider:BaseEntity
     {
-        public int Id { get; set; }
         public int Offer { get; set; }
 
         [StringLength(maximumLength: 100)]

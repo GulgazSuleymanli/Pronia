@@ -18,6 +18,7 @@ namespace Pronia_FronttoBack.DAL
         public DbSet<ProductSize> ProductSize { get; set; }
         public DbSet<Slider> Sliders { get; set; }
         public DbSet<Shipping> Shippers { get; set; }
-        
+        public DbSet<Setting> Settings { get; set; }
+
     }
 }

@@ -184,6 +184,27 @@ namespace Pronia_FronttoBack.Migrations
                     b.ToTable("ProductTag");
                 });
 
+            modelBuilder.Entity("Pronia_FronttoBack.Models.Setting", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Key")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Settings");
+                });
+
             modelBuilder.Entity("Pronia_FronttoBack.Models.Shipping", b =>
                 {
                     b.Property<int>("Id")
