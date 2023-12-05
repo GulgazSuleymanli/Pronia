@@ -20,7 +20,7 @@ app.MapControllerRoute(
 
 app.MapControllerRoute(
     name: "Default",
-    pattern: "{controller=shop}/{action=detail}/{id?}"
+    pattern: "{controller=home}/{action=index}/{id?}"
     );
 
 app.UseStaticFiles();

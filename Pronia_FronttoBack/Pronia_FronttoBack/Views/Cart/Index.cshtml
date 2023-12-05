@@ -8,7 +8,7 @@
 <main class="main-content">
         <div
           class="breadcrumb-area breadcrumb-height"
-          data-bg-image="assets/images/breadcrumb/bg/1-1-1919x388.jpg"
+          data-bg-image="Uploads/ProductImages/breadcrumb/bg/1-1-1919x388.jpg"
         >
           <div class="container h-100">
             <div class="row h-100">
@@ -64,7 +64,7 @@
                           <td class="product-thumbnail">
                             <a href="#">
                               <img
-                                src="~/Upload/Product/@item.ImageUrl"
+                                src="~/Uploads/ProductImages/@item.ImageUrl"
                                 alt="Cart Thumbnail"
                               />
                             </a>
@@ -86,7 +86,7 @@
                                 <i class="fa fa-minus"></i>
                               </div>
                               <div class="inc qtybutton">
-                                <i class="fa fa-plus"></i>
+                                <a class="fa fa-plus" asp-controller="Cart" asp-action="PlusBasket" asp-route-id="@item.Id"></a>
                               </div>
                             </div>
                           </td>
