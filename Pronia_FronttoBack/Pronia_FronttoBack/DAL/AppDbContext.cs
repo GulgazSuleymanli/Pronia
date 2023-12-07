@@ -1,7 +1,7 @@
 ﻿
 namespace Pronia_FronttoBack.DAL
 {
-    public class AppDbContext:DbContext
+    public class AppDbContext:IdentityDbContext<AppUser>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options):base(options) 
         {

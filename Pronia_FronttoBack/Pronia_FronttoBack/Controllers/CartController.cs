@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using NuGet.ContentModel;
 using Pronia_FronttoBack.DAL;
 using static System.Net.WebRequestMethods;
 
@@ -53,10 +54,10 @@ namespace Pronia_FronttoBack.Controllers
 
         public async Task<IActionResult> AddBasket(int id)
         {
-            var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
+            Product product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
             if (product == null) return NotFound();
 
-            List<BasketCookieVM> basket;
+            List<BasketCookieVM> basket = new List<BasketCookieVM>();
             if (Request.Cookies["Basket"] == null)
             {
                 BasketCookieVM basketCookieVm = new BasketCookieVM()
@@ -64,13 +65,14 @@ namespace Pronia_FronttoBack.Controllers
                     Id = id,
                     Count = 1
                 };
-                basket = new List<BasketCookieVM>();
+               
                 basket.Add(basketCookieVm);
             }
             else
             {
                 basket = JsonConvert.DeserializeObject<List<BasketCookieVM>>(Request.Cookies["Basket"]);
-                var existBasket = basket.FirstOrDefault(p => p.Id == id);
+                BasketCookieVM existBasket = basket.FirstOrDefault(p => p.Id == id);
+
                 if (existBasket != null)
                 {
                     existBasket.Count += 1;
@@ -109,15 +111,9 @@ namespace Pronia_FronttoBack.Controllers
                 }
             }
 
-            return RedirectToAction(nameof(Index),"Home");
+            return PartialView("_BasketPartialView", basketItemVMs);
         }
 
-        public async Task<IActionResult> GetBasket()
-        {
-            var cookie = Request.Cookies["Basket"];
-
-            return Content(cookie);
-        }
 
         #region Remove
         public async Task<IActionResult> RemoveBasket(int id)
@@ -138,9 +134,30 @@ namespace Pronia_FronttoBack.Controllers
                 Response.Cookies.Append("Basket", JsonConvert.SerializeObject(basket));
             }
 
-            return RedirectToAction(nameof(Index), "Home");
-        } 
+            return RedirectToAction(nameof(Index),"Home");
+        }
         #endregion
+
+        public async Task<IActionResult> RemoveCartItem(int id)
+        {
+            string json = Request.Cookies["Basket"];
+
+            if (json is not null)
+            {
+                List<BasketCookieVM> basket = JsonConvert.DeserializeObject<List<BasketCookieVM>>(json);
+
+                BasketCookieVM product = basket.FirstOrDefault(p => p.Id == id);
+
+                if (product is not null)
+                {
+                    basket.Remove(product);
+                }
+
+                Response.Cookies.Append("Basket", JsonConvert.SerializeObject(basket));
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
 
         public async Task<IActionResult> PlusBasket(int id)
         {

@@ -997,6 +997,10 @@
       "PackagePath": "staticwebassets\\assets\\images\\website-images\\service.png"
     },
     {
+      "Id": "C:\\Users\\Gulgaz\\Desktop\\Code Academy\\Front To Back\\Pronia\\Pronia_FronttoBack\\Pronia_FronttoBack\\wwwroot\\assets\\js\\custom.js",
+      "PackagePath": "staticwebassets\\assets\\js\\custom.js"
+    },
+    {
       "Id": "C:\\Users\\Gulgaz\\Desktop\\Code Academy\\Front To Back\\Pronia\\Pronia_FronttoBack\\Pronia_FronttoBack\\wwwroot\\assets\\js\\main.js",
       "PackagePath": "staticwebassets\\assets\\js\\main.js"
     },

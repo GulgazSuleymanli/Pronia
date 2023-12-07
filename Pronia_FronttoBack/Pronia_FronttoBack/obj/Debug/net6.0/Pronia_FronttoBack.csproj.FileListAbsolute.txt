@@ -263,3 +263,8 @@ C:\Users\Gulgaz\Desktop\Code Academy\Front To Back\Pronia\Pronia_FronttoBack\Pro
 C:\Users\Gulgaz\Desktop\Code Academy\Front To Back\Pronia\Pronia_FronttoBack\Pronia_FronttoBack\bin\Debug\net6.0\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\Gulgaz\Desktop\Code Academy\Front To Back\Pronia\Pronia_FronttoBack\Pronia_FronttoBack\bin\Debug\net6.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\Gulgaz\Desktop\Code Academy\Front To Back\Pronia\Pronia_FronttoBack\Pronia_FronttoBack\bin\Debug\net6.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Users\Gulgaz\Desktop\Code Academy\Front To Back\Pronia\Pronia_FronttoBack\Pronia_FronttoBack\bin\Debug\net6.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Users\Gulgaz\Desktop\Code Academy\Front To Back\Pronia\Pronia_FronttoBack\Pronia_FronttoBack\bin\Debug\net6.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+C:\Users\Gulgaz\Desktop\Code Academy\Front To Back\Pronia\Pronia_FronttoBack\Pronia_FronttoBack\bin\Debug\net6.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\Gulgaz\Desktop\Code Academy\Front To Back\Pronia\Pronia_FronttoBack\Pronia_FronttoBack\bin\Debug\net6.0\Microsoft.Extensions.Identity.Core.dll
+C:\Users\Gulgaz\Desktop\Code Academy\Front To Back\Pronia\Pronia_FronttoBack\Pronia_FronttoBack\bin\Debug\net6.0\Microsoft.Extensions.Identity.Stores.dll

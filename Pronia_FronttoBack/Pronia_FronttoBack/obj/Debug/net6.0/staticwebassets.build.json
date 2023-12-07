@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "bFrMzWZbfBCXO7dOAWUc/j1uQ1ukvCVLAxlD5e4vd8c=",
+  "Hash": "QN/TYROdREUjBA9f1lxByXq8K3F4uPsUTzX4M2aLPA8=",
   "Source": "Pronia_FronttoBack",
   "BasePath": "_content/Pronia_FronttoBack",
   "Mode": "Default",
@@ -2820,6 +2820,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\assets\\images\\website-images\\service.png"
+    },
+    {
+      "Identity": "C:\\Users\\Gulgaz\\Desktop\\Code Academy\\Front To Back\\Pronia\\Pronia_FronttoBack\\Pronia_FronttoBack\\wwwroot\\assets\\js\\custom.js",
+      "SourceId": "Pronia_FronttoBack",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Gulgaz\\Desktop\\Code Academy\\Front To Back\\Pronia\\Pronia_FronttoBack\\Pronia_FronttoBack\\wwwroot\\",
+      "BasePath": "_content/Pronia_FronttoBack",
+      "RelativePath": "assets/js/custom.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\assets\\js\\custom.js"
     },
     {
       "Identity": "C:\\Users\\Gulgaz\\Desktop\\Code Academy\\Front To Back\\Pronia\\Pronia_FronttoBack\\Pronia_FronttoBack\\wwwroot\\assets\\js\\main.js",
