@@ -69,10 +69,49 @@ namespace Pronia_FronttoBack.Controllers
             return RedirectToAction(nameof(Index), "Home");
         }
 
+
+        #region Login
         public async Task<IActionResult> Login()
         {
             return View();
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginVM loginVm, string ReturnUrl)
+        {
+            if (!ModelState.IsValid) return View();
+
+            var existUser = await _userManager.FindByNameAsync(loginVm.UsernameOrEmail);
+
+            if (existUser == null)
+            {
+                existUser = await _userManager.FindByEmailAsync(loginVm.Password);
+                if (existUser == null)
+                {
+                    ModelState.AddModelError("", "Wrong Username or Password");
+                    return View();
+                }
+            }
+
+            var signCheck = _signinManager.CheckPasswordSignInAsync(existUser, loginVm.Password, false).Result;
+
+            if (!signCheck.Succeeded)
+            {
+                ModelState.AddModelError("", "Wrong Username or Password");
+                return View();
+            }
+
+            await _signinManager.SignInAsync(existUser, isPersistent: false);
+
+            if (ReturnUrl != null)
+            {
+                return Redirect(ReturnUrl);
+            }
+
+            return RedirectToAction(nameof(Index), "Home");
+        } 
+        #endregion
+
 
         static bool CheckEmail(string email)
         {

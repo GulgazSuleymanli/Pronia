@@ -1,4 +1,5 @@
-﻿using Pronia_FronttoBack.Areas.Manage_Pronia.ViewModels;
+﻿using Microsoft.AspNetCore.Authorization;
+using Pronia_FronttoBack.Areas.Manage_Pronia.ViewModels;
 using Pronia_FronttoBack.Migrations;
 using Pronia_FronttoBack.Models;
 using System.Drawing;
@@ -9,6 +10,7 @@ using Size = Pronia_FronttoBack.Models.Size;
 namespace Pronia_FronttoBack.Areas.Manage_Pronia.Controllers
 {
     [Area("Manage_Pronia")]
+    [Authorize]
     public class ProductController : Controller
     {
         private readonly AppDbContext _context;

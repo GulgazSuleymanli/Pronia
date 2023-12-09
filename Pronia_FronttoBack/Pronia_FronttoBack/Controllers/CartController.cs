@@ -1,10 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Authorization;
+using Newtonsoft.Json;
 using NuGet.ContentModel;
 using Pronia_FronttoBack.DAL;
 using static System.Net.WebRequestMethods;
 
 namespace Pronia_FronttoBack.Controllers
 {
+    [Authorize]
     public class CartController : Controller
     {
         AppDbContext _context;
