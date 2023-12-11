@@ -2,6 +2,8 @@
 using Newtonsoft.Json;
 using NuGet.ContentModel;
 using Pronia_FronttoBack.DAL;
+using Pronia_FronttoBack.Models;
+using System.Security.Claims;
 using static System.Net.WebRequestMethods;
 
 namespace Pronia_FronttoBack.Controllers
@@ -9,12 +11,13 @@ namespace Pronia_FronttoBack.Controllers
     [Authorize]
     public class CartController : Controller
     {
-        AppDbContext _context;
-        
+        private readonly AppDbContext _context;
+        private readonly UserManager<AppUser> _userManager;
 
-        public CartController(AppDbContext context)
+        public CartController(AppDbContext context, UserManager<AppUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
         public async Task<IActionResult> Index()
         {
@@ -59,57 +62,104 @@ namespace Pronia_FronttoBack.Controllers
             Product product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
             if (product == null) return NotFound();
 
-            List<BasketCookieVM> basket = new List<BasketCookieVM>();
-            if (Request.Cookies["Basket"] == null)
+            List<BasketItemVM> basketItemVMs = new List<BasketItemVM>();
+
+            if(User.Identity.IsAuthenticated)
             {
-                BasketCookieVM basketCookieVm = new BasketCookieVM()
+                AppUser user = await _userManager.Users
+                               .Include(x => x.BasketDbItems)
+                               .FirstOrDefaultAsync(x => x.Id == User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+                var exist = user.BasketDbItems.FirstOrDefault(bi=>bi.ProductId == id);
+
+                if (exist == null)
                 {
-                    Id = id,
-                    Count = 1
-                };
-               
-                basket.Add(basketCookieVm);
+                    user.BasketDbItems.Add(new BasketDbItem()
+                    {
+                        Count = 1,
+                        ProductId = exist.Id,
+                        AppUserId = user.Id,
+                    });
+                }
+                else
+                {
+                    exist.Count++;
+                }
+
+                await _context.SaveChangesAsync();
+
+                foreach (var item in user.BasketDbItems)
+                {
+                    Product newProduct = await _context.Products
+                        .Include(x => x.Images.Where(x => x.IsPrimary == true))
+                        .FirstOrDefaultAsync(x => x.Id == item.ProductId);
+
+                    if (newProduct is not null)
+                    {
+                        basketItemVMs.Add(new BasketItemVM
+                        {
+                            Id = item.ProductId,
+                            Name = newProduct.Title,
+                            Price = newProduct.Price,
+                            ImageUrl = newProduct.Images[0].ImageUrl,
+                            Count = item.Count
+                        });
+                    }
+                }
             }
             else
             {
-                basket = JsonConvert.DeserializeObject<List<BasketCookieVM>>(Request.Cookies["Basket"]);
-                BasketCookieVM existBasket = basket.FirstOrDefault(p => p.Id == id);
-
-                if (existBasket != null)
-                {
-                    existBasket.Count += 1;
-                }
-                else
+                List<BasketCookieVM> basket = new List<BasketCookieVM>();
+                if (Request.Cookies["Basket"] == null)
                 {
                     BasketCookieVM basketCookieVm = new BasketCookieVM()
                     {
                         Id = id,
                         Count = 1
                     };
+
                     basket.Add(basketCookieVm);
                 }
-            }
-            var json = JsonConvert.SerializeObject(basket);
-            Response.Cookies.Append("Basket", json);
-
-            List<BasketItemVM> basketItemVMs = new List<BasketItemVM>();
-
-            foreach (var item in basket)
-            {
-                Product newProduct = await _context.Products
-                    .Include(x => x.Images.Where(x => x.IsPrimary == true))
-                    .FirstOrDefaultAsync(x => x.Id == item.Id);
-
-                if (newProduct is not null)
+                else
                 {
-                    basketItemVMs.Add(new BasketItemVM
+                    basket = JsonConvert.DeserializeObject<List<BasketCookieVM>>(Request.Cookies["Basket"]);
+                    BasketCookieVM existBasket = basket.FirstOrDefault(p => p.Id == id);
+
+                    if (existBasket != null)
                     {
-                        Id = item.Id,
-                        Name = newProduct.Title,
-                        Price = newProduct.Price,
-                        ImageUrl = newProduct.Images[0].ImageUrl,
-                        Count = item.Count
-                    });
+                        existBasket.Count += 1;
+                    }
+                    else
+                    {
+                        BasketCookieVM basketCookieVm = new BasketCookieVM()
+                        {
+                            Id = id,
+                            Count = 1
+                        };
+                        basket.Add(basketCookieVm);
+                    }
+                }
+                var json = JsonConvert.SerializeObject(basket);
+                Response.Cookies.Append("Basket", json);
+
+
+                foreach (var item in basket)
+                {
+                    Product newProduct = await _context.Products
+                        .Include(x => x.Images.Where(x => x.IsPrimary == true))
+                        .FirstOrDefaultAsync(x => x.Id == item.Id);
+
+                    if (newProduct is not null)
+                    {
+                        basketItemVMs.Add(new BasketItemVM
+                        {
+                            Id = item.Id,
+                            Name = newProduct.Title,
+                            Price = newProduct.Price,
+                            ImageUrl = newProduct.Images[0].ImageUrl,
+                            Count = item.Count
+                        });
+                    }
                 }
             }
 
