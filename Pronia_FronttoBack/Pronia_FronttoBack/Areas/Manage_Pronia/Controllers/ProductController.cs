@@ -10,7 +10,7 @@ using Size = Pronia_FronttoBack.Models.Size;
 namespace Pronia_FronttoBack.Areas.Manage_Pronia.Controllers
 {
     [Area("Manage_Pronia")]
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class ProductController : Controller
     {
         private readonly AppDbContext _context;

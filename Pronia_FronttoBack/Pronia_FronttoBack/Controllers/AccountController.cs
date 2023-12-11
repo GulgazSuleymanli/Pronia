@@ -1,4 +1,7 @@
 ﻿
+using Microsoft.CodeAnalysis.CSharp;
+using Pronia_FronttoBack.Utilities.Enums;
+using System.Security.Policy;
 using System.Text.RegularExpressions;
 
 namespace Pronia_FronttoBack.Controllers
@@ -8,11 +11,13 @@ namespace Pronia_FronttoBack.Controllers
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signinManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signinManager)
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signinManager, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _signinManager = signinManager;
+            _roleManager = roleManager;
         }
 
 
@@ -55,6 +60,8 @@ namespace Pronia_FronttoBack.Controllers
                     return View();
                 }
             }
+
+            await _userManager.AddToRoleAsync(user, UserRole.Member.ToString());
 
             await _signinManager.SignInAsync(user, false);
 
@@ -117,6 +124,22 @@ namespace Pronia_FronttoBack.Controllers
         {
             string pattern = @"^[a-zA-Z._-]+@gmail\.com$";
             return Regex.IsMatch(email, pattern);
+        }
+
+        public async Task<IActionResult> CreateRole()
+        {
+            foreach(var item in Enum.GetValues(typeof(UserRole)))
+            {
+                if(!await _roleManager.RoleExistsAsync(item.ToString()))
+                {
+                    _roleManager.CreateAsync(new IdentityRole()
+                    {
+                        Name = item.ToString()
+                    });
+                }
+            }
+
+            return RedirectToAction(nameof(Index), "Home");
         }
     }
 }
