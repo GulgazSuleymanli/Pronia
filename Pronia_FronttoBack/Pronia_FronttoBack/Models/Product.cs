@@ -13,5 +13,7 @@
         public List<ProductSize> PrdSizes { get; set; }
         public List<Image> Images { get; set; }
         public List<BasketDbItem> BasketDbItems { get; set; }
+        public List<OrderItem> OrderItems { get; set; }
+
     }
 }

@@ -8,7 +8,7 @@ using static System.Net.WebRequestMethods;
 
 namespace Pronia_FronttoBack.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class CartController : Controller
     {
         private readonly AppDbContext _context;
@@ -70,16 +70,18 @@ namespace Pronia_FronttoBack.Controllers
                                .Include(x => x.BasketDbItems)
                                .FirstOrDefaultAsync(x => x.Id == User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-                var exist = user.BasketDbItems.FirstOrDefault(bi=>bi.ProductId == id);
+                BasketDbItem exist = user.BasketDbItems.FirstOrDefault(bi=>bi.ProductId == product.Id);
 
                 if (exist == null)
                 {
-                    user.BasketDbItems.Add(new BasketDbItem()
+                    BasketDbItem basketDbItem = new BasketDbItem()
                     {
                         Count = 1,
-                        ProductId = exist.Id,
+                        ProductId = product.Id,
                         AppUserId = user.Id,
-                    });
+                    };
+
+                    _context.BasketDbItems.Add(basketDbItem);
                 }
                 else
                 {

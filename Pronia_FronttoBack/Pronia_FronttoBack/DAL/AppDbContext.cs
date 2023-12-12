@@ -20,6 +20,9 @@ namespace Pronia_FronttoBack.DAL
         public DbSet<Shipping> Shippers { get; set; }
         public DbSet<Setting> Settings { get; set; }
         public DbSet<BasketDbItem> BasketDbItems { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+
 
     }
 }

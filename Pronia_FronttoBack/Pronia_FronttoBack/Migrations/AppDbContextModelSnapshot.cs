@@ -318,6 +318,86 @@ namespace Pronia_FronttoBack.Migrations
                     b.ToTable("Image");
                 });
 
+            modelBuilder.Entity("Pronia_FronttoBack.Models.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Surname")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("TotalPrice")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("Pronia_FronttoBack.Models.OrderItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ProductName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OrderItems");
+                });
+
             modelBuilder.Entity("Pronia_FronttoBack.Models.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -586,13 +666,13 @@ namespace Pronia_FronttoBack.Migrations
             modelBuilder.Entity("Pronia_FronttoBack.Models.BasketDbItem", b =>
                 {
                     b.HasOne("Pronia_FronttoBack.Models.AppUser", "AppUser")
-                        .WithMany()
+                        .WithMany("BasketDbItems")
                         .HasForeignKey("AppUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Pronia_FronttoBack.Models.Product", "Product")
-                        .WithMany()
+                        .WithMany("BasketDbItems")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -609,6 +689,34 @@ namespace Pronia_FronttoBack.Migrations
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Pronia_FronttoBack.Models.Order", b =>
+                {
+                    b.HasOne("Pronia_FronttoBack.Models.AppUser", "AppUser")
+                        .WithMany("Orders")
+                        .HasForeignKey("AppUserId");
+
+                    b.Navigation("AppUser");
+                });
+
+            modelBuilder.Entity("Pronia_FronttoBack.Models.OrderItem", b =>
+                {
+                    b.HasOne("Pronia_FronttoBack.Models.Order", "Order")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Pronia_FronttoBack.Models.Product", "Product")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
 
                     b.Navigation("Product");
                 });
@@ -681,14 +789,30 @@ namespace Pronia_FronttoBack.Migrations
                     b.Navigation("Tag");
                 });
 
+            modelBuilder.Entity("Pronia_FronttoBack.Models.AppUser", b =>
+                {
+                    b.Navigation("BasketDbItems");
+
+                    b.Navigation("Orders");
+                });
+
             modelBuilder.Entity("Pronia_FronttoBack.Models.Category", b =>
                 {
                     b.Navigation("Products");
                 });
 
+            modelBuilder.Entity("Pronia_FronttoBack.Models.Order", b =>
+                {
+                    b.Navigation("OrderItems");
+                });
+
             modelBuilder.Entity("Pronia_FronttoBack.Models.Product", b =>
                 {
+                    b.Navigation("BasketDbItems");
+
                     b.Navigation("Images");
+
+                    b.Navigation("OrderItems");
 
                     b.Navigation("PrdColors");
 
