@@ -1,7 +1,7 @@
 ﻿
-using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.AspNetCore.Authorization;
 using Pronia_FronttoBack.Utilities.Enums;
-using System.Security.Policy;
+using System.Security.Claims;
 using System.Text.RegularExpressions;
 
 namespace Pronia_FronttoBack.Controllers
@@ -12,12 +12,15 @@ namespace Pronia_FronttoBack.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signinManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly AppDbContext _context;
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signinManager, RoleManager<IdentityRole> roleManager)
+
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signinManager, RoleManager<IdentityRole> roleManager, AppDbContext context)
         {
             _userManager = userManager;
             _signinManager = signinManager;
             _roleManager = roleManager;
+            _context = context;
         }
 
 
@@ -116,8 +119,36 @@ namespace Pronia_FronttoBack.Controllers
             }
 
             return RedirectToAction(nameof(Index), "Home");
-        } 
+        }
         #endregion
+
+        [Authorize]
+        public async Task<IActionResult> MyAccount()
+        {
+            AppUser user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == User.FindFirstValue(ClaimTypes.NameIdentifier));
+            
+            MyAccountVM myAccountVM = new MyAccountVM();
+            
+            if (user is not null)
+            {
+                List<Order> userOrders = await _context.Orders.Where(o => o.AppUserId == user.Id).Include(o => o.BasketDbItems).ToListAsync();
+                myAccountVM.Orders = userOrders;
+            }
+
+            return View(myAccountVM);
+        }
+
+        public async Task<IActionResult> Detail(int id)
+        {
+            AppUser user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            Product product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
+
+            
+
+
+            return View();
+        }
 
 
         static bool CheckEmail(string email)

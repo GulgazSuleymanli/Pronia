@@ -246,12 +246,17 @@ namespace Pronia_FronttoBack.Migrations
                     b.Property<int>("Count")
                         .HasColumnType("int");
 
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("int");
+
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AppUserId");
+
+                    b.HasIndex("OrderId");
 
                     b.HasIndex("ProductId");
 
@@ -671,6 +676,10 @@ namespace Pronia_FronttoBack.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Pronia_FronttoBack.Models.Order", null)
+                        .WithMany("BasketDbItems")
+                        .HasForeignKey("OrderId");
+
                     b.HasOne("Pronia_FronttoBack.Models.Product", "Product")
                         .WithMany("BasketDbItems")
                         .HasForeignKey("ProductId")
@@ -803,6 +812,8 @@ namespace Pronia_FronttoBack.Migrations
 
             modelBuilder.Entity("Pronia_FronttoBack.Models.Order", b =>
                 {
+                    b.Navigation("BasketDbItems");
+
                     b.Navigation("OrderItems");
                 });
 

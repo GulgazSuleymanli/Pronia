@@ -14,5 +14,7 @@ namespace Pronia_FronttoBack.Models
         public string? AppUserId { get; set; }
         public AppUser? AppUser { get; set; }
         public List<OrderItem> OrderItems { get; set; }
+        public List<BasketDbItem> BasketDbItems { get; set; }
+
     }
 }

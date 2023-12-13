@@ -25,36 +25,36 @@
             
             <div class="row">
                 <div class="col-lg-6 col-12">
-                    <form action="javascript:void(0)" method="post">
+                    <form id="billing-form" method="post">
                         <div class="checkbox-form">
                             <h3>Billing Details</h3>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="checkout-form-list">
-                                        <label asp-for="Name">First Name <span class="required">*</span></label>
+                                        <label asp-for="Name">First Name<span class="required">*</span></label>
                                         <input asp-for="Name" placeholder="" />
-                                        <span asp-validation-for="Name"></span>
+                                        <span asp-validation-for="Name" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="checkout-form-list">
-                                        <label asp-for="Surname">First Name <span class="required">*</span></label>
+                                        <label asp-for="Surname">Last Name<span class="required">*</span></label>
                                         <input asp-for="Surname" placeholder="" />
-                                        <span asp-validation-for="Surname"></span>
+                                        <span asp-validation-for="Surname" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="checkout-form-list">
-                                        <label asp-for="Email">First Name <span class="required">*</span></label>
+                                        <label asp-for="Email">Email<span class="required">*</span></label>
                                         <input asp-for="Email" placeholder="" />
-                                        <span asp-validation-for="Email"></span>
+                                        <span asp-validation-for="Email" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="checkout-form-list">
-                                        <label asp-for="Address">First Name <span class="required">*</span></label>
+                                        <label asp-for="Address">Address<span class="required">*</span></label>
                                         <input asp-for="Address" placeholder="" />
-                                        <span asp-validation-for="Address"></span>
+                                        <span asp-validation-for="Address" class="text-danger"></span>
                                     </div>
                                 </div>
                             </div>
@@ -73,21 +73,26 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @* @foreach (var item in Model)
+                                    @foreach (var item in Model.CheckoutItemVMs)
                                     {
-                                        
-                                    } *@
+                                        <tr class="cart_item">
+                                            <td class="cart-product-name">
+                                                @item.Name<strong class="product-quantity">
+                                                    × @item.Count
+                                                </strong>
+                                            </td>
+                                            <td class="cart-product-total">
+                                                <span class="amount">$@(item.Price*item.Count)</span>
+                                            </td>
+                                        </tr>
+                                    }
                                     
                                 </tbody>
                                 <tfoot>
-                                    <tr class="cart-subtotal">
-                                        <th>Cart Subtotal</th>
-                                        <td><span class="amount">$215.00</span></td>
-                                    </tr>
                                     <tr class="order-total">
                                         <th>Order Total</th>
                                         <td>
-                                            <strong><span class="amount">$215.00</span></strong>
+                                            <strong><span class="amount">$@Model.CheckoutItemVMs.Sum(p=>p.Price*p.Count)</span></strong>
                                         </td>
                                     </tr>
                                 </tfoot>
@@ -95,85 +100,9 @@
                         </div>
                         <div class="payment-method">
                             <div class="payment-accordion">
-                                <div id="accordion">
-                                    <div class="card">
-                                        <div class="card-header" id="#payment-1">
-                                            <h5 class="panel-title">
-                                                <a href="#"
-                                                   class=""
-                                                   data-bs-toggle="collapse"
-                                                   data-bs-target="#collapseOne"
-                                                   aria-expanded="true">
-                                                    Direct Bank Transfer.
-                                                </a>
-                                            </h5>
-                                        </div>
-                                        <div id="collapseOne"
-                                             class="collapse show"
-                                             data-bs-parent="#accordion">
-                                            <div class="card-body">
-                                                <p>
-                                                    Make your payment directly into our bank
-                                                    account. Please use your Order ID as the payment
-                                                    reference. Your order won’t be shipped until the
-                                                    funds have cleared in our account.
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card">
-                                        <div class="card-header" id="#payment-2">
-                                            <h5 class="panel-title">
-                                                <a href="#"
-                                                   class="collapsed"
-                                                   data-bs-toggle="collapse"
-                                                   data-bs-target="#collapseTwo"
-                                                   aria-expanded="false">
-                                                    Cheque Payment
-                                                </a>
-                                            </h5>
-                                        </div>
-                                        <div id="collapseTwo"
-                                             class="collapse"
-                                             data-bs-parent="#accordion">
-                                            <div class="card-body">
-                                                <p>
-                                                    Make your payment directly into our bank
-                                                    account. Please use your Order ID as the payment
-                                                    reference. Your order won’t be shipped until the
-                                                    funds have cleared in our account.
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card">
-                                        <div class="card-header" id="#payment-3">
-                                            <h5 class="panel-title">
-                                                <a href="#"
-                                                   class="collapsed"
-                                                   data-bs-toggle="collapse"
-                                                   data-bs-target="#collapseThree"
-                                                   aria-expanded="false">
-                                                    PayPal
-                                                </a>
-                                            </h5>
-                                        </div>
-                                        <div id="collapseThree"
-                                             class="collapse"
-                                             data-bs-parent="#accordion">
-                                            <div class="card-body">
-                                                <p>
-                                                    Make your payment directly into our bank
-                                                    account. Please use your Order ID as the payment
-                                                    reference. Your order won’t be shipped until the
-                                                    funds have cleared in our account.
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                
                                 <div class="order-button-payment">
-                                    <input value="Place order" type="submit" />
+                                    <button form="billing-form" value="Place order" type="submit" class="btn btn-dark">Place Order</button>
                                 </div>
                             </div>
                         </div>

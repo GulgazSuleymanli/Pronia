@@ -14,15 +14,17 @@ namespace Pronia_FronttoBack.Controllers
             _context = context;
             _userManager = userManager;
         }
+
+
+
+        #region Checkout
         public async Task<IActionResult> Checkout()
         {
             OrderVM orderVM = new OrderVM();
 
-            if(User.Identity.IsAuthenticated)
+            if (User.Identity.IsAuthenticated)
             {
-                AppUser user = await _userManager.Users
-                                .Include(u=>u.BasketDbItems)
-                               .FirstOrDefaultAsync(u=>u.Id==User.FindFirstValue(ClaimTypes.NameIdentifier));
+                AppUser user = await _userManager.Users.Include(u => u.BasketDbItems).FirstOrDefaultAsync(u => u.Id == User.FindFirstValue(ClaimTypes.NameIdentifier));
 
                 orderVM.Name = user.Name;
                 orderVM.Email = user.Email;
@@ -30,16 +32,16 @@ namespace Pronia_FronttoBack.Controllers
 
                 foreach (var item in user.BasketDbItems)
                 {
-                    Product product = await _context.Products.FirstOrDefaultAsync(p=>p.Id==item.ProductId);
+                    Product product = await _context.Products.FirstOrDefaultAsync(p => p.Id == item.ProductId);
 
                     if (product != null)
                     {
                         orderVM.CheckoutItemVMs.Add(new CheckoutItemVM()
                         {
-                            ProductId=product.Id,
-                            Name=product.Title,
-                            Count=item.Count,
-                            Price=product.Price
+                            ProductId = product.Id,
+                            Name = product.Title,
+                            Count = item.Count,
+                            Price = product.Price
                         });
                     }
                 }
@@ -77,7 +79,7 @@ namespace Pronia_FronttoBack.Controllers
         {
             AppUser user = null;
 
-            if(User.Identity.IsAuthenticated)
+            if (User.Identity.IsAuthenticated)
             {
                 user = await _userManager.Users
                                 .Include(u => u.BasketDbItems)
@@ -216,6 +218,11 @@ namespace Pronia_FronttoBack.Controllers
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Index", "Home");
-        }
+        } 
+        #endregion
+
+
+
+
     }
 }

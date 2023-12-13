@@ -140,7 +140,7 @@
                                                 @if(User.Identity.IsAuthenticated)
                                                 {
                                                     <li>
-                                                        <a class="dropdown-item" href="my-account.html">@User.Identity.Name</a>
+                                                        <a class="dropdown-item" asp-controller="Account" asp-action="MyAccount">My Account</a>
                                                     </li>
                                                     <li>
                                                         <a class="dropdown-item" asp-controller="Account" asp-action="Logout">Logout</a>
