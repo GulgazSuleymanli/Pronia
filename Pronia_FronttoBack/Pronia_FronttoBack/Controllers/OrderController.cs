@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Pronia_FronttoBack.Services;
 using System.Security.Claims;
 
 namespace Pronia_FronttoBack.Controllers
@@ -8,11 +9,13 @@ namespace Pronia_FronttoBack.Controllers
     {
         readonly AppDbContext _context;
         readonly UserManager<AppUser> _userManager;
+        readonly EmailService _emailService;
 
-        public OrderController(AppDbContext context, UserManager<AppUser> userManager)
+        public OrderController(AppDbContext context, UserManager<AppUser> userManager, EmailService emailService)
         {
             _context = context;
             _userManager = userManager;
+            _emailService = emailService;
         }
 
 
@@ -213,6 +216,8 @@ namespace Pronia_FronttoBack.Controllers
             }
 
             order.TotalPrice = total;
+
+            _emailService.SendMail("nefde2020@gmail.com", "Order", "Order confirmed");
 
             await _context.Orders.AddAsync(order);
             await _context.SaveChangesAsync();

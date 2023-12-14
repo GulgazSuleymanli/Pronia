@@ -6,7 +6,7 @@ addbasketbtns.forEach(btn => {
         e.preventDefault();
 
         var endpoint = btn.getAttribute("href");
-
+        console.log(endpoint)
         fetch(endpoint)
             .then(respose => respose.text())
             .then(data => {

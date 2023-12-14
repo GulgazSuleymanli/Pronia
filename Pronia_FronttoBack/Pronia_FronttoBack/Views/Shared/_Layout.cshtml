@@ -463,7 +463,7 @@
                                                 @if (User.Identity.IsAuthenticated)
                                                 {
                                                     <li>
-                                                        <a class="dropdown-item" href="my-account.html">@User.Identity.Name</a>
+                                                        <a class="dropdown-item" asp-controller="Account" asp-action="MyAccount">My Account</a>
                                                     </li>
                                                     <li>
                                                         <a class="dropdown-item" asp-controller="Account" asp-action="Logout">Logout</a>
@@ -846,7 +846,7 @@
                 </div>
             </div>
             <div class="offcanvas-minicart_wrapper" id="miniCart">
-                <div class="offcanvas-body">
+                <div class="offcanvas-body basket-products">
 
                     @await Html.PartialAsync("_BasketPartialView", basketItems)
 

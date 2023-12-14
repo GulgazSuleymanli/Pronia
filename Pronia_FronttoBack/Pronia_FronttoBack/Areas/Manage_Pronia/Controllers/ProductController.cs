@@ -10,7 +10,6 @@ using Size = Pronia_FronttoBack.Models.Size;
 namespace Pronia_FronttoBack.Areas.Manage_Pronia.Controllers
 {
     [Area("Manage_Pronia")]
-    [Authorize(Roles = "Admin")]
     public class ProductController : Controller
     {
         private readonly AppDbContext _context;
@@ -23,9 +22,13 @@ namespace Pronia_FronttoBack.Areas.Manage_Pronia.Controllers
         }
 
         #region Index
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page=1)
         {
+            int take = 10;
+            decimal count = await _context.Products.CountAsync();
+
             List<Product> Products = await _context.Products
+                                    .Skip((page-1)*take).Take(take)
                                     .Include(c => c.Category)
                                     .Include(t => t.PrdTags).ThenInclude(p => p.Tag)
                                     .Include(c => c.PrdColors).ThenInclude(p => p.Color)
@@ -33,7 +36,16 @@ namespace Pronia_FronttoBack.Areas.Manage_Pronia.Controllers
                                     .Include(i => i.Images)
                                     .ToListAsync();
 
-            return View(Products);
+            PaginateVM<Product> paginateVM = new PaginateVM<Product>()
+            {
+                Take = take,
+                TotalPage = Math.Ceiling(count/take),
+                CurrentPage = page,
+                Items = Products
+            };
+
+
+            return View(paginateVM);
         }
         #endregion
 
